@@ -4,6 +4,7 @@ public class SpeedBoost : PowerUpBase
 {
     private float originalSpeed;
 
+
     public override void ApplyEffect(Player player)
     {
         if (IsEffectActive) return;
