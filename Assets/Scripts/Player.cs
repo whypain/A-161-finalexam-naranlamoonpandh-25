@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        PowerUps = new List<PowerUpBase>();
     }
 
     private void Update()
@@ -81,11 +82,10 @@ public class Player : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (IsInvulnerable) return;
-
         if(collision.gameObject.TryGetComponent(out PowerUpBase powerup))
         {
             ApplyPowerup(powerup);
+            Destroy(powerup.gameObject);
         }
     }
 }
