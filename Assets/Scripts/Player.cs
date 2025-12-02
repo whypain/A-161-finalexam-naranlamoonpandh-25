@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public float MoveSpeed { get => moveSpeed; private set => moveSpeed = value; }
     public float JumpForce { get => jumpForce; private set => jumpForce = value; }
+    public List<PowerUpBase> PowerUps { get; private set; }
 
     public bool IsInvulnerable { get; private set; }
 
@@ -29,6 +31,22 @@ public class Player : MonoBehaviour
     {
         JumpForce = jumpForce;
         Debug.Log($"[Player] JumpForce: {JumpForce}");
+    }
+
+    public void ApplyPowerup(PowerUpBase powerup)
+    {
+        powerup.ApplyEffect(this);
+        PowerUps.Add(powerup);
+    }
+
+    public void ClearPowerups()
+    {
+        foreach (var powerup in PowerUps)
+        {
+            powerup.UnapplyEffect(this);
+        }
+
+        PowerUps.Clear();
     }
 
 
@@ -64,37 +82,10 @@ public class Player : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (IsInvulnerable) return;
-    }
-}
 
-public abstract class PowerUpBase
-{
-    protected bool IsEffectActive;
-
-    public abstract void ApplyEffect(Player player);
-}
-
-
-public class SpeedBoost : PowerUpBase
-{
-    public override void ApplyEffect(Player player)
-    {
-        throw new System.NotImplementedException();
-    }
-}
-
-public class ShieldBuff : PowerUpBase
-{
-    public override void ApplyEffect(Player player)
-    {
-        throw new System.NotImplementedException();
-    }
-}
-
-public class Milk : PowerUpBase
-{
-    public override void ApplyEffect(Player player)
-    {
-        throw new System.NotImplementedException();
+        if(collision.gameObject.TryGetComponent(out PowerUpBase powerup))
+        {
+            ApplyPowerup(powerup);
+        }
     }
 }
