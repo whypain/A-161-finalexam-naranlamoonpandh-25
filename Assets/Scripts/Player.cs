@@ -25,6 +25,12 @@ public class Player : MonoBehaviour
         Debug.Log($"[Player] Invulnerability: {IsInvulnerable}");
     }
 
+    public void SetJumpForce(float jumpForce)
+    {
+        JumpForce = jumpForce;
+        Debug.Log($"[Player] JumpForce: {JumpForce}");
+    }
+
 
 
     public void Move()
